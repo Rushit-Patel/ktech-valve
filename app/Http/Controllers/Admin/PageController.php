@@ -117,8 +117,9 @@ class PageController extends BaseController
         return $this->successResponse('Page deleted successfully!');
     }
 
-    public function toggleStatus(Page $page)
+    public function toggleStatus($pageId)
     {
+        $page = Page::findOrFail($pageId);
         $page->update(['is_active' => !$page->is_active]);
 
         $status = $page->is_active ? 'activated' : 'deactivated';
