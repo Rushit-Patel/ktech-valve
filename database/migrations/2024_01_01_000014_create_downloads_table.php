@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('downloads', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->string('file_type'); // pdf, doc, xls, etc.
+            $table->string('title',100);
+            $table->string('file_name',100);
+            $table->string('file_path',100);
+            $table->string('file_type',100); // pdf, doc, xls, etc.
             $table->bigInteger('file_size')->nullable(); // in bytes
             $table->text('description')->nullable();
-            $table->string('category')->nullable(); // catalog, certificate, manual, etc.
+            $table->string('category',100)->nullable(); // catalog, certificate, manual, etc.
             $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
             $table->integer('download_count')->default(0);
             $table->boolean('is_public')->default(true);

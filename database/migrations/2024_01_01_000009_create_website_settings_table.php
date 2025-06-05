@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('website_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();
+            $table->string('key',100)->unique();
             $table->text('value')->nullable();
-            $table->string('type')->default('text'); // text, image, json, boolean
-            $table->string('group')->default('general'); // general, contact, social, seo
-            $table->string('label');
+            $table->string('type',100)->default('text'); // text, image, json, boolean
+            $table->string('group',100)->default('general'); // general, contact, social, seo
+            $table->string('label',100);
             $table->text('description')->nullable();
             $table->timestamps();
             

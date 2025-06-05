@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('title',100);
+            $table->string('slug',100)->unique();
             $table->text('excerpt')->nullable();
             $table->longText('content');
-            $table->string('featured_image')->nullable();
-            $table->string('meta_title')->nullable();
+            $table->string('featured_image',100)->nullable();
+            $table->string('meta_title',100)->nullable();
             $table->text('meta_description')->nullable();
             $table->text('meta_keywords')->nullable();
             $table->json('tags')->nullable();
-            $table->string('category')->nullable();
+            $table->string('category',100)->nullable();
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->timestamp('published_at')->nullable();
             $table->foreignId('author_id')->nullable()->constrained('users')->onDelete('set null');

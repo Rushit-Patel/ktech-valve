@@ -9,13 +9,13 @@ class BaseController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
-        $this->middleware(function ($request, $next) {
-            if (!auth()->user()->isAdmin()) {
-                abort(403, 'Access denied. Admin privileges required.');
-            }
-            return $next($request);
-        });
+        // $this->middleware(['auth']);
+        // $this->middleware(function ($request, $next) {
+        //     if (!auth()->user()->isAdmin()) {
+        //         abort(403, 'Access denied. Admin privileges required.');
+        //     }
+        //     return $next($request);
+        // });
     }
 
     /**

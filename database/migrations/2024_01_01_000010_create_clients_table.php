@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('logo')->nullable();
-            $table->string('website')->nullable();
+            $table->string('name',100);
+            $table->string('logo',100)->nullable();
+            $table->string('website',100)->nullable();
             $table->text('description')->nullable();
-            $table->string('industry')->nullable();
+            $table->string('industry',100)->nullable();
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);
             $table->integer('sort_order')->default(0);
