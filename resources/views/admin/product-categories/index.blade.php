@@ -80,7 +80,14 @@
                                 <a href="{{ route('admin.product-categories.edit', $category) }}" class="btn btn-sm btn-outline-primary" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form method="POST" action="{{ route('admin.product-categories.destroy', $category) }}" class="d-inline" onsubmit="return confirm('Are you sure?')">
+                                <form method="POST" action="{{ route('admin.product-categories.toggle-status', $category) }}" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-sm btn-outline-{{ $category->is_active ? 'warning' : 'success' }}" title="{{ $category->is_active ? 'Deactivate' : 'Activate' }}">
+                                        <i class="fas fa-toggle-{{ $category->is_active ? 'off' : 'on' }}"></i>
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('admin.product-categories.destroy', $category) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this category?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
@@ -91,7 +98,16 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-4">No categories found.</td>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-layer-group fa-3x mb-3"></i>
+                                    <h5>No Categories Found</h5>
+                                    <p>Start by creating your first product category.</p>
+                                    <a href="{{ route('admin.product-categories.create') }}" class="btn btn-primary">
+                                        <i class="fas fa-plus me-1"></i>Add New Category
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -99,10 +115,21 @@
         </div>
         
         @if($categories->hasPages())
-            <div class="d-flex justify-content-center">
-                {{ $categories->withQueryString()->links() }}
-            </div>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $categories->withQueryString()->links() }}
+        </div>
         @endif
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-submit form on status change
+        document.querySelector('select[name="status"]').addEventListener('change', function() {
+            this.form.submit();
+        });
+    });
+</script>
+@endpush

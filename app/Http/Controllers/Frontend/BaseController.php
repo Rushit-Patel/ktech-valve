@@ -14,7 +14,7 @@ class BaseController extends Controller
     public function __construct()
     {
         // Share common data with all frontend views
-        $this->middleware(function ($request, $next) {
+        // $this->middleware(function ($request, $next) {
             $this->websiteSettings = WebsiteSetting::getByGroup('general');
             
             // Share website settings with all views
@@ -28,8 +28,8 @@ class BaseController extends Controller
             $socialSettings = WebsiteSetting::getByGroup('social');
             View::share('socialSettings', $socialSettings);
 
-            return $next($request);
-        });
+            // return $next($request);
+        // });
     }
 
     /**
