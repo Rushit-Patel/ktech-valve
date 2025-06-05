@@ -1,203 +1,844 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name') }} - Industrial Valve Solutions</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:300,400,500,600,700&display=swap" rel="stylesheet" />
-    
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/70 backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-900/70">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-16 items-center justify-between">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <img class="h-8 w-auto" src="/images/logo.svg" alt="{{ config('app.name') }}">
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-900 hover:text-blue-600 dark:text-slate-100 dark:hover:text-blue-400">Products</a>
-                            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100">Solutions</a>
-                            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100">About</a>
-                            <a href="#" class="px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100">Contact</a>
+@extends('frontend.layouts.app')
+
+@section('title', $seoData['title'] ?? 'K Tech Valves - Leading Valve Manufacturer & Supplier')
+@section('meta_description', $seoData['description'] ?? 'K Tech Valves is a premier manufacturer and supplier of high-quality industrial valves.')
+@section('meta_keywords', $seoData['keywords'] ?? 'industrial valves, valve manufacturer, valve supplier, ball valves, gate valves')
+
+@section('content')
+<!-- Banner/Slider Section -->
+<section class="hero-banner">
+    <div class="banner-slider">
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide-content">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="banner-text">
+                                <h1 class="banner-title">{{ $websiteSettings['hero_title'] ?? 'Leading Valve Solutions for Industrial Excellence' }}</h1>
+                                <p class="banner-description">{{ $websiteSettings['hero_subtitle'] ?? 'Discover our comprehensive range of high-quality industrial valves designed for superior performance and reliability across diverse applications.' }}</p>
+                                <div class="banner-buttons">
+                                    <a href="{{ route('products.index') }}" class="btn btn-primary">Explore Products</a>
+                                    <a href="{{ route('contact') }}" class="btn btn-outline">Get Quote</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="banner-image">
+                                <img src="{{ $websiteSettings['hero_image'] ? asset('storage/' . $websiteSettings['hero_image']) : asset('images/banners/banner-1.jpg') }}" alt="K Tech Valves Industrial Solutions" class="img-fluid">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        @auth
-                            <a href="{{ route('dashboard') }}" class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Dashboard
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 px-3 py-2 text-sm font-medium">Sign in</a>
-                            <a href="{{ route('register') }}" class="ml-3 inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                                Get Started
-                            </a>
-                        @endauth
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <div class="relative overflow-hidden">
-        <div class="mx-auto max-w-7xl px-4 pb-16 pt-16 sm:px-6 sm:pb-24 sm:pt-24 lg:px-8">
-            <div class="text-center">
-                <h1 class="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-6xl">
-                    Industrial Valve 
-                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Solutions</span>
-                    for Modern Industry
-                </h1>
-                <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-                    K Tech Valves provides cutting-edge valve solutions for industrial applications. 
-                    Engineered for reliability, performance, and efficiency.
-                </p>
-                <div class="mt-10 flex items-center justify-center gap-x-6">
-                    <a href="#products" class="rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                        View Products
-                    </a>
-                    <a href="#contact" class="text-base font-semibold leading-6 text-slate-900 dark:text-slate-100">
-                        Learn more <span aria-hidden="true">→</span>
-                    </a>
                 </div>
             </div>
         </div>
         
-        <!-- Background decoration -->
-        <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-            <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-blue-600 to-purple-600 opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="banner-text">
+                                <h1 class="banner-title">Certified Quality, Trusted Performance</h1>
+                                <p class="banner-description">ISO certified manufacturing processes ensure every valve meets international quality standards for your critical applications.</p>
+                                <div class="banner-buttons">
+                                    <a href="{{ route('certifications') }}" class="btn btn-primary">View Certifications</a>
+                                    <a href="{{ route('about') }}" class="btn btn-outline">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="banner-image">
+                                <img src="{{ asset('images/banners/banner-2.jpg') }}" alt="Certified Quality Valves" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="banner-text">
+                                <h1 class="banner-title">Serving Industries Worldwide</h1>
+                                <p class="banner-description">From oil & gas to pharmaceuticals, our valves power critical operations across multiple industries globally.</p>
+                                <div class="banner-buttons">
+                                    <a href="{{ route('industries.index') }}" class="btn btn-primary">View Industries</a>
+                                    <a href="{{ route('gallery') }}" class="btn btn-outline">View Gallery</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="banner-image">
+                                <img src="{{ asset('images/banners/banner-3.jpg') }}" alt="Industrial Applications" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
+    <!-- Slider Navigation -->
+    <div class="slider-nav">
+        <button class="prev-slide">&lsaquo;</button>
+        <button class="next-slide">&rsaquo;</button>
+    </div>
+    
+    <!-- Slider Indicators -->
+    <div class="slider-indicators">
+        <span class="indicator active" data-slide="0"></span>
+        <span class="indicator" data-slide="1"></span>
+        <span class="indicator" data-slide="2"></span>
+    </div>
+</section>
 
-    <!-- Product Categories Section -->
-    <div id="products" class="py-16 sm:py-24">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">
-                    Our Product Categories
-                </h2>
-                <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
-                    Comprehensive valve solutions for every industrial need
-                </p>
+<!-- About Company Section -->
+<section class="about-company py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="about-content">
+                    <div class="section-header">
+                        <span class="section-subtitle">About K Tech Valves</span>
+                        <h2 class="section-title">{{ $websiteSettings['about_title'] ?? 'Engineering Excellence in Every Valve' }}</h2>
+                    </div>
+                    <p class="about-description">
+                        {{ $websiteSettings['about_description'] ?? 'With over two decades of experience in valve manufacturing, K Tech Valves has established itself as a trusted name in the industry. We specialize in designing, manufacturing, and supplying high-quality industrial valves that meet the most demanding specifications.' }}
+                    </p>
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <i class="icon-check"></i>
+                            <span>ISO 9001:2015 Certified</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="icon-check"></i>
+                            <span>{{ $stats['years_experience'] }}+ Years Experience</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="icon-check"></i>
+                            <span>Global Supply Network</span>
+                        </div>
+                    </div>
+                    <a href="{{ route('about') }}" class="btn btn-primary mt-4">Read More About Us</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-image">
+                    <img src="{{ $websiteSettings['about_image'] ? asset('storage/' . $websiteSettings['about_image']) : asset('images/about/company-overview.jpg') }}" alt="K Tech Valves Manufacturing" class="img-fluid rounded">
+                    <div class="experience-badge">
+                        <span class="years">{{ $stats['years_experience'] }}+</span>
+                        <span class="text">Years of Excellence</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Valves Range Section -->
+<section class="valves-range py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-subtitle">Our Products</span>
+            <h2 class="section-title">Comprehensive Valve Range</h2>
+            <p class="section-description">Explore our extensive collection of industrial valves designed for various applications and industries</p>
+        </div>
+        
+        <div class="row">
+            @forelse($categories as $category)
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="valve-category-card">
+                    <div class="category-image">
+                        <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="img-fluid">
+                    </div>
+                    <div class="category-content">
+                        <h4 class="category-title">{{ $category->name }}</h4>
+                        <p class="category-description">{{ Str::limit($category->description, 100) }}</p>
+                        <div class="category-meta">
+                            <span class="product-count">{{ $category->active_products_count }} Products</span>
+                        </div>
+                        <a href="{{ route('products.category', $category->slug) }}" class="category-link">View Products</a>
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">No product categories available at the moment.</p>
+            </div>
+            @endforelse
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ route('products.index') }}" class="btn btn-primary">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="featured-products py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-subtitle">Featured Products</span>
+            <h2 class="section-title">Our Best Selling Valves</h2>
+            <p class="section-description">Discover our most popular and trusted valve solutions</p>
+        </div>
+        
+        <div class="row">
+            @forelse($featuredProducts->take(3) as $product)
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" class="img-fluid">
+                        <div class="product-badge">Featured</div>
+                    </div>
+                    <div class="product-content">
+                        <h5 class="product-title">{{ $product->name }}</h5>
+                        <p class="product-description">{{ Str::limit($product->short_description, 120) }}</p>
+                        @if($product->technical_details)
+                        <div class="product-specs">
+                            @foreach(collect($product->technical_details)->take(2) as $key => $value)
+                            <span class="spec">{{ ucfirst($key) }}: {{ $value }}</span>
+                            @endforeach
+                        </div>
+                        @endif
+                        <div class="product-actions">
+                            <a href="{{ route('products.show', $product->slug) }}" class="btn btn-outline btn-sm">View Details</a>
+                            <a href="{{ route('contact') }}?product={{ $product->slug }}" class="btn btn-primary btn-sm">Get Quote</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">No featured products available at the moment.</p>
+            </div>
+            @endforelse
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose K Tech Valves Section -->
+<section class="why-choose-us py-5 bg-primary text-white">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-subtitle">Why Choose Us</span>
+            <h2 class="section-title">K Tech Valves Advantage</h2>
+            <p class="section-description">Discover what makes us the preferred choice for industrial valve solutions</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="advantage-item text-center">
+                    <div class="advantage-icon">
+                        <i class="icon-quality"></i>
+                    </div>
+                    <h4 class="advantage-title">Superior Quality</h4>
+                    <p class="advantage-description">ISO 9001:2015 certified manufacturing processes ensure consistent quality and reliability in every product we deliver.</p>
+                </div>
             </div>
             
-            <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach($productCategories as $category)
-                <div class="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                    @if($category->image)
-                        <div class="aspect-[16/9] overflow-hidden">
-                            <img src="{{ Storage::url($category->image) }}" 
-                                 alt="{{ $category->name }}" 
-                                 class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
-                        </div>
-                    @else
-                        <div class="aspect-[16/9] bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center">
-                            <svg class="h-16 w-16 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-4.5A1.125 1.125 0 0110.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H5.25m0 0h4.125c1.243 0 2.25 1.007 2.25 2.25v1.5c0 .621.504 1.125 1.125 1.125H15m-6.75-7.5h2.25c1.243 0 2.25 1.007 2.25 2.25v4.875c0 1.243-1.007 2.25-2.25 2.25h-9A1.125 1.125 0 012.25 15.75v-7.5A1.125 1.125 0 013.375 7.125h4.5z" />
-                            </svg>
-                        </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="advantage-item text-center">
+                    <div class="advantage-icon">
+                        <i class="icon-innovation"></i>
+                    </div>
+                    <h4 class="advantage-title">Innovative Solutions</h4>
+                    <p class="advantage-description">Continuous R&D investment enables us to develop cutting-edge valve technologies for evolving industry needs.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="advantage-item text-center">
+                    <div class="advantage-icon">
+                        <i class="icon-support"></i>
+                    </div>
+                    <h4 class="advantage-title">Expert Support</h4>
+                    <p class="advantage-description">Our technical experts provide comprehensive support from product selection to after-sales service.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="advantage-item text-center">
+                    <div class="advantage-icon">
+                        <i class="icon-delivery"></i>
+                    </div>
+                    <h4 class="advantage-title">Timely Delivery</h4>
+                    <p class="advantage-description">Efficient supply chain management ensures on-time delivery to meet your project deadlines.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="advantage-item text-center">
+                    <div class="advantage-icon">
+                        <i class="icon-customization"></i>
+                    </div>
+                    <h4 class="advantage-title">Custom Solutions</h4>
+                    <p class="advantage-description">Tailored valve solutions designed to meet specific application requirements and industry standards.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="advantage-item text-center">
+                    <div class="advantage-icon">
+                        <i class="icon-global"></i>
+                    </div>
+                    <h4 class="advantage-title">Global Reach</h4>
+                    <p class="advantage-description">Worldwide distribution network ensures reliable service and support wherever your operations are located.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Industries We Serve Section -->
+<section class="industries-served py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-subtitle">Industries We Serve</span>
+            <h2 class="section-title">Powering Critical Operations Worldwide</h2>
+            <p class="section-description">Our valves serve diverse industries with specialized solutions for unique operational requirements</p>
+        </div>
+        
+        <div class="row">
+            @forelse($industries as $industry)
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="industry-item text-center">
+                    <div class="industry-icon">
+                        <img src="{{ $industry->icon_url ?? asset('images/industries/default.svg') }}" alt="{{ $industry->name }}" class="img-fluid">
+                    </div>
+                    <h5 class="industry-title">{{ $industry->name }}</h5>
+                    <p class="industry-description">{{ Str::limit($industry->short_description, 80) }}</p>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">No industries information available at the moment.</p>
+            </div>
+            @endforelse
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ route('industries.index') }}" class="btn btn-primary">View All Industries</a>
+        </div>
+    </div>
+</section>
+
+<!-- Certifications Section -->
+<section class="certifications py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-subtitle">Quality Assurance</span>
+            <h2 class="section-title">Our Certifications</h2>
+            <p class="section-description">Committed to international quality standards and regulatory compliance</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            @forelse($certifications as $certification)
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="certification-item text-center">
+                    <div class="certification-logo">
+                        <img src="{{ $certification->certificate_image_url }}" alt="{{ $certification->title }}" class="img-fluid">
+                    </div>
+                    <h6 class="certification-title">{{ $certification->title }}</h6>
+                    <p class="certification-description">{{ $certification->issued_by }}</p>
+                    @if($certification->expiry_date)
+                    <small class="text-muted">Valid until: {{ $certification->expiry_date->format('M Y') }}</small>
                     @endif
-                    
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                            {{ $category->name }}
-                        </h3>
-                        @if($category->description)
-                            <p class="mt-2 text-slate-600 dark:text-slate-400 line-clamp-3">
-                                {{ $category->description }}
-                            </p>
-                        @endif
-                        <div class="mt-4 flex items-center justify-between">
-                            <span class="text-sm text-slate-500 dark:text-slate-400">
-                                {{ $category->products->count() }} Products
-                            </span>
-                            <a href="{{ route('products.category', $category->slug) }}" 
-                               class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
-                                View Products
-                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">No certifications information available at the moment.</p>
+            </div>
+            @endforelse
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{{ route('certifications') }}" class="btn btn-primary">View All Certifications</a>
+        </div>
+    </div>
+</section>
+
+<!-- Our Clients Section -->
+<section class="our-clients py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-subtitle">Trusted Partners</span>
+            <h2 class="section-title">Our Valued Clients</h2>
+            <p class="section-description">Proud to serve leading organizations across the globe</p>
+        </div>
+        
+        @if($clients->count() > 0)
+        <div class="clients-grid">
+            <div class="row">
+                @foreach($clients as $client)
+                <div class="col-lg-2 col-md-3 col-4 mb-4">
+                    <div class="client-logo">
+                        <img src="{{ $client->logo_url }}" alt="{{ $client->name }}" class="img-fluid grayscale" title="{{ $client->name }}">
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+        
+        <!-- Client Testimonials -->
+        @if($testimonials->count() > 0)
+        <div class="testimonials mt-5">
+            <div class="row">
+                @foreach($testimonials->take(3) as $testimonial)
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <p class="testimonial-text">"{{ $testimonial->content }}"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h6 class="author-name">{{ $testimonial->client_name }}</h6>
+                                <span class="author-position">{{ $testimonial->client_designation }}, {{ $testimonial->company_name }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
         </div>
+        @endif
     </div>
+</section>
 
-    <!-- Stats Section -->
-    <div class="bg-blue-600 dark:bg-blue-700 py-16 sm:py-24">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-white sm:text-4xl">{{ $totalProducts ?? '500+' }}</div>
-                    <div class="mt-2 text-blue-100">Products Available</div>
+<!-- Statistics Section -->
+<section class="statistics py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item text-center">
+                    <div class="stat-number">{{ $stats['total_products'] }}</div>
+                    <div class="stat-label">Products Available</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-white sm:text-4xl">{{ $totalCategories ?? '25+' }}</div>
-                    <div class="mt-2 text-blue-100">Product Categories</div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item text-center">
+                    <div class="stat-number">{{ $stats['industries_served'] }}+</div>
+                    <div class="stat-label">Industries Served</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-white sm:text-4xl">15+</div>
-                    <div class="mt-2 text-blue-100">Years Experience</div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item text-center">
+                    <div class="stat-number">{{ $stats['years_experience'] }}+</div>
+                    <div class="stat-label">Years Experience</div>
                 </div>
-                <div class="text-center">
-                    <div class="text-3xl font-bold text-white sm:text-4xl">1000+</div>
-                    <div class="mt-2 text-blue-100">Happy Clients</div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item text-center">
+                    <div class="stat-number">{{ $stats['satisfied_clients'] }}+</div>
+                    <div class="stat-label">Satisfied Clients</div>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 dark:bg-slate-950">
-        <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-            <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-                <div class="space-y-8 xl:col-span-1">
-                    <img class="h-8 w-auto" src="/images/logo-white.svg" alt="{{ config('app.name') }}">
-                    <p class="text-base text-slate-400">
-                        Leading provider of industrial valve solutions with over 15 years of experience in the industry.
-                    </p>
-                </div>
-                <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-                    <div class="md:grid md:grid-cols-2 md:gap-8">
-                        <div>
-                            <h3 class="text-base font-medium text-white">Products</h3>
-                            <ul class="mt-4 space-y-4">
-                                @foreach($productCategories->take(4) as $category)
-                                <li>
-                                    <a href="{{ route('products.category', $category->slug) }}" class="text-base text-slate-400 hover:text-white">
-                                        {{ $category->name }}
-                                    </a>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="mt-12 md:mt-0">
-                            <h3 class="text-base font-medium text-white">Company</h3>
-                            <ul class="mt-4 space-y-4">
-                                <li><a href="#" class="text-base text-slate-400 hover:text-white">About</a></li>
-                                <li><a href="#" class="text-base text-slate-400 hover:text-white">Blog</a></li>
-                                <li><a href="#" class="text-base text-slate-400 hover:text-white">Careers</a></li>
-                                <li><a href="#" class="text-base text-slate-400 hover:text-white">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
+<!-- Call to Action Section -->
+<section class="cta-section py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="cta-content">
+                    <h3 class="cta-title">Ready to Find Your Perfect Valve Solution?</h3>
+                    <p class="cta-description">Contact our technical experts today for personalized recommendations and competitive quotes.</p>
                 </div>
             </div>
-            <div class="mt-12 border-t border-slate-800 pt-8">
-                <p class="text-base text-slate-400">&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+            <div class="col-lg-4 text-lg-end">
+                <div class="cta-buttons">
+                    <a href="{{ route('contact') }}" class="btn btn-light me-3">Contact Us</a>
+                    <a href="{{ route('contact') }}?type=quote" class="btn btn-outline-light">Get Quote</a>
+                </div>
             </div>
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</section>
+
+@if(isset($schemaMarkup))
+<!-- Schema Markup -->
+<script type="application/ld+json">
+{!! json_encode($schemaMarkup, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endif
+@endsection
+
+@push('styles')
+<style>
+/* Banner/Slider Styles */
+.hero-banner {
+    position: relative;
+    overflow: hidden;
+    height: 600px;
+}
+
+.banner-slider {
+    position: relative;
+    height: 100%;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 60px 0;
+}
+
+.banner-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.banner-description {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.banner-buttons .btn {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Product and Category Cards */
+.valve-category-card,
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.valve-category-card:hover,
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.category-image,
+.product-image {
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+}
+
+.category-image img,
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.category-content,
+.product-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-actions {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.product-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ff6b6b;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.product-specs {
+    margin: 0.5rem 0;
+}
+
+.product-specs .spec {
+    display: inline-block;
+    background: #f8f9fa;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Statistics Section */
+.statistics {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+.stat-item {
+    padding: 2rem 1rem;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #3498db;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    color: #ecf0f1;
+}
+
+/* Industry Items */
+.industry-item {
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.industry-item:hover {
+    transform: translateY(-3px);
+}
+
+.industry-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+}
+
+/* Certification Items */
+.certification-item {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.certification-item:hover {
+    transform: translateY(-3px);
+}
+
+.certification-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+}
+
+/* Client Logos */
+.client-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    padding: 1rem;
+    transition: transform 0.3s ease;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.client-logo:hover {
+    transform: scale(1.05);
+}
+
+.client-logo img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.client-logo:hover img {
+    filter: grayscale(0%);
+}
+
+/* Testimonial Cards */
+.testimonial-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-content {
+    flex-grow: 1;
+}
+
+.testimonial-text {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+/* Experience Badge */
+.experience-badge {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    background: #007bff;
+    color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.experience-badge .years {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.experience-badge .text {
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .banner-title {
+        font-size: 2.5rem;
+    }
+    
+    .cta-buttons {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Banner Slider Functionality
+    const slides = document.querySelectorAll('.slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevButton = document.querySelector('.prev-slide');
+    const nextButton = document.querySelector('.next-slide');
+    let currentSlide = 0;
+    const slideInterval = 5000; // 5 seconds
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === index);
+        });
+        indicators.forEach((indicator, i) => {
+            indicator.classList.toggle('active', i === index);
+        });
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        const next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+    }
+
+    function prevSlide() {
+        const prev = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(prev);
+    }
+
+    // Event listeners
+    if (nextButton) nextButton.addEventListener('click', nextSlide);
+    if (prevButton) prevButton.addEventListener('click', prevSlide);
+
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => showSlide(index));
+    });
+
+    // Auto-play slider
+    let autoPlayInterval = setInterval(nextSlide, slideInterval);
+
+    // Pause auto-play on hover
+    const bannerSlider = document.querySelector('.banner-slider');
+    if (bannerSlider) {
+        bannerSlider.addEventListener('mouseenter', () => {
+            clearInterval(autoPlayInterval);
+        });
+
+        bannerSlider.addEventListener('mouseleave', () => {
+            autoPlayInterval = setInterval(nextSlide, slideInterval);
+        });
+    }
+
+    // Counter Animation
+    function animateCounters() {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const target = parseInt(counter.textContent.replace(/\D/g, ''));
+            const increment = target / 200;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    counter.textContent = counter.textContent.replace(/\d+/, target);
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = counter.textContent.replace(/\d+/, Math.floor(current));
+                }
+            }, 10);
+        });
+    }
+
+    // Animate counters when they come into view
+    const statsSection = document.querySelector('.statistics');
+    if (statsSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        observer.observe(statsSection);
+    }
+});
+</script>
+@endpush

@@ -65,7 +65,7 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 // Sitemap and SEO
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
-
+Route::get('/products-by-category', [HomeController::class, 'getProductsByCategory'])->name('home.products-by-category');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', [Settings\ProfileController::class, 'edit'])->name('settings.profile.edit');
